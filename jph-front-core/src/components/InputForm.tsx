@@ -181,7 +181,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                 ) : (
                     <>
                         <RefreshCw className="w-5 h-5" />
-                        機密データを安全に同期
+                        変換を開始
                     </>
                 )}
             </motion.button>
