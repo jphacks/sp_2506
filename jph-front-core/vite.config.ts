@@ -18,8 +18,8 @@ export default defineConfig({
         manualChunks: {
           // 大きなライブラリを分離
           vendor: ['react', 'react-dom'],
-          mui: ['@mui/material', '@mui/icons-material'],
-          voprf: ['@cloudflare/voprf-ts']
+          voprf: ['@cloudflare/voprf-ts'],
+          animation: ['framer-motion', 'animejs']
         }
       }
     },
@@ -35,9 +35,10 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
-      '@mui/material',
-      '@mui/icons-material',
-      '@cloudflare/voprf-ts'
+      '@cloudflare/voprf-ts',
+      'framer-motion',
+      'animejs',
+      'lucide-react'
     ]
   }
 })
