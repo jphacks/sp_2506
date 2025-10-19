@@ -94,16 +94,18 @@ function ApiFormContainer() {
 
     const [userInputData, setUserInputData] = useState<FormData | null>(null);
 
-    // アニメーション効果
+    // アニメーション効果（GSAP版）
     useEffect(() => {
         if (containerRef.current) {
-            anime({
-                targets: containerRef.current,
-                opacity: [0, 1],
-                translateY: [20, 0],
-                duration: 800,
-                easing: 'easeOutExpo'
-            });
+            gsap.fromTo(containerRef.current, 
+                { opacity: 0, y: 20 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 0.8, 
+                    ease: "power2.out" 
+                }
+            );
         }
     }, []);
 
