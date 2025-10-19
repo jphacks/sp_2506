@@ -24,6 +24,28 @@ export type DisplayResultItem = {
     apiOutput: string;
 };
 
+type TitleStruct = {
+    type: string;
+    title: string;
+};
+
+const fetchUniqueId = async (title: string): Promise<string> => {
+    const normalizedTitle = title.trim().toLowerCase();
+
+    const respJson = await (await fetch(`https://api.jikan.moe/v4/anime?q=${normalizedTitle}&limit=1`)).json();
+    const id = respJson.data[0].mal_id;
+    console.log(respJson.data[0].titles.filter((t: TitleStruct)=>t.type=="Japanese" || t.type=="Default").pop())
+    
+    if (normalizedTitle.includes('エラー')) {
+        // ID取得エラーをシミュレート
+        throw new Error(`ID取得に失敗: ${title}`);
+    }
+
+    // 作品名に基づいて、一意のID（例: UUIDやデータベースID）を生成
+    // 簡易的な例として、タイトルをMD5ハッシュ化したかのような文字列を返す
+    return id;
+};
+
 const MAX_INPUTS = 10;
 
 function ApiFormContainer() {
@@ -58,10 +80,13 @@ function ApiFormContainer() {
         }
         setUserInputData(data);
 
+        const idPromises = allInputs.map(title => fetchUniqueId(title));
+        const uniqueIds = await Promise.all(idPromises);
+
         const suite = Oprf.Suite.P384_SHA384;
         const client = new OPRFClient(suite);
 
-        const batch = allInputs.map(text => new TextEncoder().encode(text));
+        const batch = uniqueIds.map(text => new TextEncoder().encode(text));
         const [finData, evalReq] = await client.blind(batch);
 
         const apiUrl = 'http://localhost:3000/upload-binary';
