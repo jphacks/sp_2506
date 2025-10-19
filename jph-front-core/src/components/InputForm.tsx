@@ -1,7 +1,7 @@
 // src/components/InputForm.tsx
 import { useForm, useFieldArray, type SubmitHandler } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, RefreshCw } from 'lucide-react';
+import { Plus, Trash2, RefreshCw, Key } from 'lucide-react';
 import { type FormData } from './ApiFormContainer'; // 親から型をインポート
 
 type InputFormProps = {
