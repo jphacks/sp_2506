@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Lock, Zap, Sparkles, Github, ExternalLink } from 'lucide-react';
+import { Shield, Lock, Zap, Sparkles, Github, ExternalLink, Key, Sync, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
 
 function App() {
@@ -97,18 +97,18 @@ function App() {
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Shield className="w-6 h-6 text-primary-400" />
+                  <Key className="w-6 h-6 text-primary-400" />
                 </motion.div>
-                <span className="text-white font-semibold text-lg">OPRF Secure</span>
+                <span className="text-white font-semibold text-lg">Secret Sync</span>
               </div>
               <div className="flex items-center gap-1 text-secondary-400">
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <Lock className="w-4 h-4" />
+                  <Sync className="w-4 h-4" />
                 </motion.div>
-                <span className="text-sm">Privacy Protected</span>
+                <span className="text-sm">Secure Sync</span>
               </div>
             </motion.div>
 
@@ -128,9 +128,9 @@ function App() {
                   animate={{ rotate: [0, 360] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                 >
-                  <Zap className="w-4 h-4 text-accent-400" />
+                  <Database className="w-4 h-4 text-accent-400" />
                 </motion.div>
-                <span className="text-sm font-medium">Bun + TypeScript</span>
+                <span className="text-sm font-medium">OPRF Protocol</span>
               </motion.div>
               <motion.div
                 className="flex items-center gap-1 px-3 py-1 bg-white/5 rounded-full border border-white/10"
@@ -141,9 +141,9 @@ function App() {
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <Sparkles className="w-4 h-4 text-primary-400" />
+                  <Cloud className="w-4 h-4 text-primary-400" />
                 </motion.div>
-                <span className="text-sm font-medium">React + Vite</span>
+                <span className="text-sm font-medium">Secure Sync</span>
               </motion.div>
             </motion.div>
 
@@ -205,7 +205,7 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ delay: 2.8, duration: 0.6 }}
           >
-            © 2025 JPHacks - OPRF Secure Data Processing System
+            © 2025 JPHacks - Secret Sync: Secure Data Synchronization System
           </motion.div>
         </div>
       </motion.footer>

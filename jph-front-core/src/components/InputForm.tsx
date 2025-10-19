@@ -1,7 +1,7 @@
 // src/components/InputForm.tsx
 import { useForm, useFieldArray, type SubmitHandler } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Send, Lock, Sparkles } from 'lucide-react';
+import { Plus, Trash2, Send, Lock, Sparkles, Key, Sync, Database, Shield } from 'lucide-react';
 import { type FormData } from './ApiFormContainer'; // 親から型をインポート
 
 type InputFormProps = {
@@ -55,7 +55,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                                 ease: "easeInOut"
                             }}
                         >
-                            <Lock className="w-8 h-8 sm:w-10 sm:h-10 text-primary-500" />
+                            <Key className="w-8 h-8 sm:w-10 sm:h-10 text-primary-500" />
                         </motion.div>
                         <motion.div
                             animate={{ 
@@ -68,7 +68,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                                 ease: "easeInOut"
                             }}
                         >
-                            <Sparkles className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 text-accent-400" />
+                            <Sync className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 text-accent-400" />
                         </motion.div>
                     </div>
                 </motion.div>
@@ -80,7 +80,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                     transition={{ delay: 0.4, duration: 0.6 }}
                     whileHover={{ scale: 1.02 }}
                 >
-                    セキュアデータ入力
+                    機密データ同期
                 </motion.h2>
                 <motion.p 
                     className="text-sm sm:text-base text-secondary-300 px-4"
@@ -88,7 +88,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6, duration: 0.6 }}
                 >
-                    最大{maxInputs}個のテキストを安全に処理します
+                    最大{maxInputs}個の機密情報を安全に同期・共有します
                 </motion.p>
             </div>
 
@@ -107,10 +107,10 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                             <div className="flex-1">
                                 <motion.input
                                     type="text"
-                                    placeholder={`入力テキスト ${index + 1}`}
+                                    placeholder={`機密データ ${index + 1}`}
                                     className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg sm:rounded-xl text-white placeholder-secondary-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 text-sm sm:text-base"
                                     {...register(`inputs.${index}.text` as const, {
-                                        required: "テキストは必須です",
+                                        required: "機密データは必須です",
                                     })}
                                     whileFocus={{ scale: 1.02 }}
                                     whileHover={{ borderColor: "rgba(255,255,255,0.3)" }}
@@ -157,7 +157,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                     >
                         <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                     </motion.div>
-                    入力フィールドを追加 (残り: {maxInputs - fields.length})
+                    機密データフィールドを追加 (残り: {maxInputs - fields.length})
                 </motion.button>
             )}
 
@@ -176,12 +176,12 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                             animate={{ rotate: 360 }}
                             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         />
-                        セキュアに処理中...
+                        機密データを同期中...
                     </>
                 ) : (
                     <>
-                        <Send className="w-5 h-5" />
-                        データを安全に処理
+                        <Sync className="w-5 h-5" />
+                        機密データを安全に同期
                     </>
                 )}
             </motion.button>

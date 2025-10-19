@@ -4,7 +4,7 @@ import { Oprf, OPRFClient, Evaluation } from '@cloudflare/voprf-ts';
 import { type SubmitHandler } from 'react-hook-form';
 import anime from 'animejs';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Zap, Sparkles } from 'lucide-react';
+import { Shield, Lock, Zap, Sparkles, Key, Sync, Database, Cloud } from 'lucide-react';
 
 // 外部コンポーネントをインポート
 import InputForm from './InputForm';
@@ -208,16 +208,40 @@ function ApiFormContainer() {
                                     ease: "easeInOut"
                                 }}
                             >
-                                <Shield className="w-12 h-12 sm:w-16 sm:h-16 text-primary-500" />
+                                <Key className="w-12 h-12 sm:w-16 sm:h-16 text-primary-500" />
                             </motion.div>
-                            <Sparkles 
-                                ref={el => sparkleRefs.current[0] = el}
-                                className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 text-accent-400"
-                            />
-                            <Sparkles 
-                                ref={el => sparkleRefs.current[1] = el}
-                                className="absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 w-3 h-3 sm:w-4 sm:h-4 text-accent-300"
-                            />
+                            <motion.div
+                                animate={{ 
+                                    rotate: [0, 360],
+                                    scale: [1, 1.2, 1]
+                                }}
+                                transition={{ 
+                                    duration: 3, 
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <Sync 
+                                    ref={el => sparkleRefs.current[0] = el}
+                                    className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 text-accent-400"
+                                />
+                            </motion.div>
+                            <motion.div
+                                animate={{ 
+                                    scale: [1, 1.3, 1],
+                                    rotate: [0, 180, 360]
+                                }}
+                                transition={{ 
+                                    duration: 2, 
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <Database 
+                                    ref={el => sparkleRefs.current[1] = el}
+                                    className="absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 w-3 h-3 sm:w-4 sm:h-4 text-accent-300"
+                                />
+                            </motion.div>
                         </div>
                     </motion.div>
                     
@@ -228,7 +252,7 @@ function ApiFormContainer() {
                         transition={{ delay: 0.4, duration: 0.6 }}
                         whileHover={{ scale: 1.02 }}
                     >
-                        OPRF セキュア処理
+                        Secret Sync
                     </motion.h1>
                     
                     <motion.p 
@@ -237,7 +261,7 @@ function ApiFormContainer() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6, duration: 0.6 }}
                     >
-                        プライバシーを完全に保護しながら、データを安全に処理します
+                        機密情報を安全に同期・共有する次世代プラットフォーム
                     </motion.p>
                 </div>
 
