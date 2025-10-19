@@ -6,6 +6,7 @@ import anime from 'animejs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, Database } from 'lucide-react';
 import SecretSyncIcon from './SecretSyncIcon';
+import { useMobileDetection } from '../hooks/useMobileDetection';
 
 // 外部コンポーネントをインポート
 import InputForm from './InputForm';
@@ -62,7 +63,21 @@ function ApiFormContainer() {
     
     // アニメーション用のref
     const containerRef = useRef<HTMLDivElement>(null);
+    const isMobile = useMobileDetection();
     const sparkleRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // モバイル向けアニメーション設定
+    const getAnimationConfig = (baseConfig: any) => {
+        if (isMobile) {
+            return {
+                ...baseConfig,
+                duration: baseConfig.duration ? baseConfig.duration * 0.6 : 600,
+                delay: baseConfig.delay ? baseConfig.delay * 0.5 : 0,
+                easing: 'easeOutQuad'
+            };
+        }
+        return baseConfig;
+    };
 
 
     // フォームリセットと入力画面に戻る処理
@@ -90,19 +105,37 @@ function ApiFormContainer() {
 
     // スパークルアニメーション
     const createSparkleAnimation = () => {
-        sparkleRefs.current.forEach((ref, index) => {
-            if (ref) {
-                anime({
-                    targets: ref,
-                    scale: [0, 1, 0],
-                    rotate: [0, 180, 360],
-                    opacity: [0, 1, 0],
-                    duration: 2000,
-                    delay: index * 200,
-                    easing: 'easeOutExpo'
-                });
-            }
-        });
+        if (isMobile) {
+            // モバイルでは軽量なアニメーション
+            sparkleRefs.current.forEach((ref, index) => {
+                if (ref) {
+                    anime({
+                        targets: ref,
+                        scale: [0, 0.8, 0],
+                        rotate: [0, 90],
+                        opacity: [0, 0.7, 0],
+                        duration: 1200,
+                        delay: index * 100,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            });
+        } else {
+            // デスクトップでは通常のアニメーション
+            sparkleRefs.current.forEach((ref, index) => {
+                if (ref) {
+                    anime({
+                        targets: ref,
+                        scale: [0, 1, 0],
+                        rotate: [0, 180, 360],
+                        opacity: [0, 1, 0],
+                        duration: 2000,
+                        delay: index * 200,
+                        easing: 'easeOutExpo'
+                    });
+                }
+            });
+        }
     };
 
     // フォーム送信時の処理（InputFormから渡される）

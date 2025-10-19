@@ -2,8 +2,11 @@ import { motion } from 'framer-motion';
 import { Github, ExternalLink, RefreshCw, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
 import SecretSyncIcon from './components/SecretSyncIcon';
+import { useMobileDetection } from './hooks/useMobileDetection';
 
 function App() {
+  const isMobile = useMobileDetection();
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-accent-900 relative overflow-hidden">
       {/* 動的背景装飾 */}
@@ -50,7 +53,7 @@ function App() {
         />
         
         {/* パーティクル効果 */}
-        {[...Array(20)].map((_, i) => (
+        {[...Array(isMobile ? 8 : 20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-white/20 rounded-full"
@@ -59,14 +62,14 @@ function App() {
               top: `${Math.random() * 100}%`,
             }}
             animate={{
-              y: [0, -100, 0],
-              opacity: [0, 1, 0],
-              scale: [0, 1, 0],
+              y: [0, isMobile ? -50 : -100, 0],
+              opacity: [0, isMobile ? 0.6 : 1, 0],
+              scale: [0, isMobile ? 0.8 : 1, 0],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: isMobile ? 2 + Math.random() : 3 + Math.random() * 2,
               repeat: Infinity,
-              delay: Math.random() * 5,
+              delay: Math.random() * (isMobile ? 3 : 5),
               ease: "easeInOut"
             }}
           />
