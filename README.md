@@ -97,20 +97,53 @@ Bunランタイムによる高速実行
 
 ### 活用した技術
 
+#### バックエンド技術
+* **ランタイム**: Bun 1.0+ (高速JavaScript/TypeScriptランタイム)
+* **言語**: TypeScript 5.9.3
+* **フレームワーク**: Express.js 5.1.0
+* **暗号化ライブラリ**: @cloudflare/voprf-ts 1.0.0
+* **API仕様**: Swagger OpenAPI 3.0
+* **API文書化**: swagger-jsdoc 6.2.8 + swagger-ui-express 5.0.1
+* **テストフレームワーク**: Bun Test (内蔵)
+* **HTTPテスト**: supertest 7.0.0
+
+#### フロントエンド技術
+* **フレームワーク**: React 19.1.1
+* **言語**: TypeScript 5.9.3
+* **ビルドツール**: Vite 7.1.7
+* **UIライブラリ**: 
+  - Framer Motion 11.11.17 (アニメーション)
+  - Lucide React 0.460.0 (アイコン)
+  - GSAP 3.13.0 (アニメーション)
+* **スタイリング**: Tailwind CSS 4.1.0
+* **フォーム管理**: React Hook Form 7.65.0
+* **開発ツール**: ESLint 9.36.0 + TypeScript ESLint 8.45.0
+
+#### デプロイ・インフラ
+* **フロントエンドホスティング**: Vercel
+* **バックエンド**: Vercel Functions (サーバーレス)
+* **CI/CD**: GitHub Actions
+* **パッケージマネージャー**: Bun (高速)
+* **バージョン管理**: Git + GitHub
+
 #### API・データ
-* **OPRFプロトコル**: @cloudflare/voprf-ts
-* **RESTful API**: Express.js
-* **暗号化**: OpenSSL
+* **OPRFプロトコル**: @cloudflare/voprf-ts (Cloudflare OPRF実装)
+* **RESTful API**: Express.js + TypeScript
+* **暗号化**: OpenSSL (P-384楕円曲線暗号)
+* **データ形式**: JSON + Binary (OPRF処理)
 
-#### フレームワーク・ライブラリ・モジュール
-* **バックエンド**: Bun + TypeScript + Express.js
-* **フロントエンド**: React + TypeScript + Vite
-* **UI**: Material-UI
-* **テスト**: Bun Test
+#### 開発・運用ツール
+* **自動化**: Makefile (30+コマンド)
+* **コード品質**: ESLint + TypeScript strict mode
+* **テスト**: Bun Test (18テストケース)
+* **ドキュメント**: Markdown + Swagger UI
+* **環境管理**: 環境変数 + .env設定
 
-#### デバイス
-* **Webブラウザ**: モダンブラウザ対応
-* **サーバー**: Node.js/Bun対応環境
+#### デバイス・ブラウザ対応
+* **Webブラウザ**: Chrome, Firefox, Safari, Edge (最新版)
+* **モバイル**: レスポンシブデザイン対応
+* **サーバー**: Bun/Node.js対応環境
+* **OS**: Windows, macOS, Linux
 
 ### 独自技術
 
