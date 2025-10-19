@@ -4,7 +4,7 @@ import { Oprf, OPRFClient, Evaluation } from '@cloudflare/voprf-ts';
 import { type SubmitHandler } from 'react-hook-form';
 import anime from 'animejs';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Zap, Sparkles, Key, Sync, Database, Cloud } from 'lucide-react';
+import { Shield, Lock, Zap, Sparkles, Key, RefreshCw, Database, Cloud } from 'lucide-react';
 
 // 外部コンポーネントをインポート
 import InputForm from './InputForm';
@@ -221,7 +221,7 @@ function ApiFormContainer() {
                                     ease: "easeInOut"
                                 }}
                             >
-                                <Sync 
+                                <RefreshCw 
                                     ref={el => sparkleRefs.current[0] = el}
                                     className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 text-accent-400"
                                 />

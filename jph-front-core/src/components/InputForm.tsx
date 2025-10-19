@@ -1,7 +1,7 @@
 // src/components/InputForm.tsx
 import { useForm, useFieldArray, type SubmitHandler } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Send, Lock, Sparkles, Key, Sync, Database, Shield } from 'lucide-react';
+import { Plus, Trash2, Send, Lock, Sparkles, Key, RefreshCw, Database, Shield } from 'lucide-react';
 import { type FormData } from './ApiFormContainer'; // 親から型をインポート
 
 type InputFormProps = {
@@ -68,7 +68,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                                 ease: "easeInOut"
                             }}
                         >
-                            <Sync className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 text-accent-400" />
+                            <RefreshCw className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 text-accent-400" />
                         </motion.div>
                     </div>
                 </motion.div>
@@ -180,7 +180,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                     </>
                 ) : (
                     <>
-                        <Sync className="w-5 h-5" />
+                        <RefreshCw className="w-5 h-5" />
                         機密データを安全に同期
                     </>
                 )}

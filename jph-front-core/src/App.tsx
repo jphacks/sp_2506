@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Lock, Zap, Sparkles, Github, ExternalLink, Key, Sync, Database, Cloud } from 'lucide-react';
+import { Shield, Lock, Zap, Sparkles, Github, ExternalLink, Key, RefreshCw, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
 
 function App() {
@@ -106,7 +106,7 @@ function App() {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  <Sync className="w-4 h-4" />
+                  <RefreshCw className="w-4 h-4" />
                 </motion.div>
                 <span className="text-sm">Secure Sync</span>
               </div>
