@@ -66,18 +66,6 @@ function ApiFormContainer() {
     const isMobile = useMobileDetection();
     const sparkleRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-    // モバイル向けアニメーション設定
-    const getAnimationConfig = (baseConfig: any) => {
-        if (isMobile) {
-            return {
-                ...baseConfig,
-                duration: baseConfig.duration ? baseConfig.duration * 0.6 : 600,
-                delay: baseConfig.delay ? baseConfig.delay * 0.5 : 0,
-                easing: 'easeOutQuad'
-            };
-        }
-        return baseConfig;
-    };
 
 
     // フォームリセットと入力画面に戻る処理
