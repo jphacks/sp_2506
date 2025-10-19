@@ -27,11 +27,6 @@
   "env": {
     "NODE_ENV": "production"
   },
-  "functions": {
-    "api/upload-binary.ts": {
-      "maxDuration": 30
-    }
-  },
   "git": {
     "deploymentEnabled": {
       "deploy": true,

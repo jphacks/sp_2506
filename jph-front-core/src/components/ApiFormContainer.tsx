@@ -156,7 +156,7 @@ function ApiFormContainer() {
         const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || (isDevelopment 
             ? 'http://localhost:3000'
             : 'https://secretsync.t0waxx.com');
-        const apiUrl = `${apiBaseUrl}/api/upload-binary`;
+        const apiUrl = `${apiBaseUrl}/upload-binary`;
 
         setIsError(false);
         // setApiResult(null);
