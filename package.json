@@ -1,0 +1,29 @@
+{
+  "name": "jphacks-oprf-app",
+  "version": "1.0.0",
+  "description": "OPRF Secure Data Processing System",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "build:frontend": "cd jph-front-core && bun run build",
+    "build:backend": "cd jph-back-core && bun run build"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "@supabase/supabase-js": "^2.38.0",
+    "@cloudflare/voprf-ts": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "typescript": "^5.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^15.0.0"
+  }
+}
