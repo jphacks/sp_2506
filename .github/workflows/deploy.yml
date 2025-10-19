@@ -1,0 +1,64 @@
+name: 🚀 Auto Deploy to Vercel
+
+on:
+  push:
+    branches: [ deploy ]
+  pull_request:
+    branches: [ deploy ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🔧 Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+        
+    - name: 📦 Install dependencies
+      run: |
+        # フロントエンド依存関係
+        cd jph-front-core
+        bun install
+        
+        # バックエンド依存関係
+        cd ../jph-back-core
+        bun install
+        
+        # ルート依存関係
+        cd ..
+        npm install
+        
+    - name: 🧪 Run tests
+      run: |
+        echo "🧪 Running tests..."
+        cd jph-back-core && bun test
+        cd ../jph-front-core && bun run lint
+        
+    - name: 🏗️ Build projects
+      run: |
+        echo "🏗️ Building frontend..."
+        cd jph-front-core
+        bun run build
+        
+        echo "🏗️ Building backend..."
+        cd ../jph-back-core
+        bun run build
+        
+    - name: 🚀 Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./
+        vercel-args: '--prod'
+        
+    - name: 📊 Deployment Status
+      run: |
+        echo "✅ Deployment completed successfully!"
+        echo "🌐 Your app is now live on Vercel"

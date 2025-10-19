@@ -7,7 +7,18 @@
 - Git 2.0以上
 - エディタ（VS Code推奨）
 
-### 推奨VS Code拡張機能
+### 自動セットアップ（推奨）
+```bash
+# 開発環境を完全にセットアップ
+make setup
+
+# 開発ツールの確認
+make install-tools
+```
+
+### 手動セットアップ
+
+#### 推奨VS Code拡張機能
 ```json
 {
   "recommendations": [
@@ -47,7 +58,20 @@ sp_2506/
 
 ## 🔧 開発ワークフロー
 
-### 1. ブランチ戦略
+### 1. 開発環境の準備
+
+```bash
+# プロジェクトの状態確認
+make status
+
+# 開発サーバーの起動
+make dev
+
+# テストの実行
+make test
+```
+
+### 2. ブランチ戦略
 
 ```bash
 # 機能開発用ブランチ
@@ -60,7 +84,7 @@ git checkout -b fix/your-bug-fix
 git checkout -b hotfix/critical-issue
 ```
 
-### 2. コミット規約
+### 3. コミット規約
 
 ```
 <type>(<scope>): <description>
@@ -86,7 +110,7 @@ git commit -m "fix(ui): resolve button alignment issue"
 git commit -m "docs: update API documentation"
 ```
 
-### 3. プルリクエスト作成
+### 4. プルリクエスト作成
 
 ```bash
 # ブランチをプッシュ
@@ -98,9 +122,28 @@ git push origin feature/your-feature-name
 
 ## 🧪 テスト戦略
 
-### バックエンドテスト
+### 自動テスト（推奨）
 
-#### テスト構造
+#### テスト実行
+```bash
+# 全テスト実行
+make test
+
+# バックエンドテストのみ
+make test-backend
+
+# フロントエンドテストのみ
+make test-frontend
+
+# テストカバレッジ
+make test-coverage
+```
+
+### 手動テスト
+
+#### バックエンドテスト
+
+##### テスト構造
 ```
 jph-back-core/tests/
 ├── unit/                    # 単体テスト
@@ -112,7 +155,7 @@ jph-back-core/tests/
 └── fixtures/               # テストデータ
 ```
 
-#### テスト実行
+##### テスト実行
 ```bash
 # 全テスト実行
 bun test
@@ -198,9 +241,25 @@ describe('InputForm', () => {
 
 ## 🔍 コード品質管理
 
-### ESLint設定
+### 自動品質管理（推奨）
 
-#### バックエンド用ESLint
+#### 品質チェック実行
+```bash
+# 全プロジェクトのリント実行
+make lint
+
+# コードフォーマット
+make format
+
+# プロジェクト状態確認
+make status
+```
+
+### 手動品質管理
+
+#### ESLint設定
+
+##### バックエンド用ESLint
 ```json
 // jph-back-core/.eslintrc.json
 {
@@ -217,7 +276,7 @@ describe('InputForm', () => {
 }
 ```
 
-#### フロントエンド用ESLint
+##### フロントエンド用ESLint
 ```json
 // jph-front-core/.eslintrc.json
 {
@@ -233,7 +292,7 @@ describe('InputForm', () => {
 }
 ```
 
-### Prettier設定
+#### Prettier設定
 
 ```json
 // .prettierrc
@@ -247,7 +306,7 @@ describe('InputForm', () => {
 }
 ```
 
-### コード品質チェック
+#### コード品質チェック
 
 ```bash
 # ESLint実行
@@ -265,7 +324,22 @@ bun run quality-check
 
 ## 🚀 開発サーバー
 
-### バックエンド開発サーバー
+### 自動開発サーバー（推奨）
+
+```bash
+# バックエンド + フロントエンドを同時起動
+make dev
+
+# バックエンドのみ
+make dev-backend
+
+# フロントエンドのみ
+make dev-frontend
+```
+
+### 手動開発サーバー
+
+#### バックエンド開発サーバー
 
 ```bash
 cd jph-back-core
@@ -289,7 +363,7 @@ DEBUG=true
 OPRF_PRIVATE_KEY_PATH=./secrets/key.priv
 ```
 
-### フロントエンド開発サーバー
+#### フロントエンド開発サーバー
 
 ```bash
 cd jph-front-core

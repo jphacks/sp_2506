@@ -22,53 +22,57 @@ git clone https://github.com/jphacks/sp_2506.git
 cd sp_2506
 ```
 
-### 2. 依存関係のインストール
+### 2. 自動セットアップ（推奨）
 
-#### バックエンド
 ```bash
-cd jph-back-core
-bun install
+# 完全自動セットアップ（推奨）
+make setup
+
+# または段階的にセットアップ
+make install-tools    # 開発ツールの確認
+make setup-backend     # バックエンド環境セットアップ
+make setup-frontend    # フロントエンド環境セットアップ
 ```
 
-#### フロントエンド
+### 3. 手動セットアップ（詳細設定が必要な場合）
+
+#### 依存関係のインストール
 ```bash
+# バックエンド
+cd jph-back-core
+bun install
+
+# フロントエンド
 cd ../jph-front-core
 bun install
 ```
 
-### 3. 環境設定
-
-#### バックエンド設定
+#### 環境設定
 ```bash
+# バックエンド設定（秘密鍵は自動生成されます）
 cd jph-back-core
+make generate-key  # 新しい秘密鍵を生成
 
-# 秘密鍵ディレクトリを作成
-mkdir -p secrets
-
-# 秘密鍵ファイルを作成（開発用）
-echo "your-base64-encoded-private-key" > secrets/key.priv
-```
-
-#### フロントエンド設定
-```bash
+# フロントエンド設定
 cd jph-front-core
-
-# 環境変数ファイルを作成
 echo "VITE_API_BASE_URL=http://localhost:3000" > .env.local
 ```
 
 ### 4. 開発サーバーの起動
 
-#### バックエンドサーバー
+#### 自動起動（推奨）
 ```bash
-cd jph-back-core
-bun run dev
+# バックエンド + フロントエンドを同時起動
+make dev
 ```
 
-#### フロントエンドサーバー（別ターミナル）
+#### 個別起動
 ```bash
-cd jph-front-core
-bun run dev
+# バックエンドのみ
+make dev-backend
+
+# フロントエンドのみ
+make dev-frontend
 ```
 
 ### 5. 動作確認
@@ -81,21 +85,42 @@ bun run dev
 
 ## 🔧 詳細セットアップ
 
-### Bunのインストール
+### 開発ツールの確認・インストール
 
-#### macOS/Linux
+#### 自動確認（推奨）
 ```bash
+# 必要な開発ツールの確認
+make install-tools
+```
+
+#### 手動インストール
+
+##### Bunのインストール
+```bash
+# macOS/Linux
 curl -fsSL https://bun.sh/install | bash
-```
 
-#### Windows
-```powershell
+# Windows
 powershell -c "irm bun.sh/install.ps1 | iex"
+
+# 代替方法（npm経由）
+npm install -g bun
 ```
 
-#### 代替方法（npm経由）
+##### その他の開発ツール
 ```bash
-npm install -g bun
+# Node.js（Bunの代替として）
+# https://nodejs.org/
+
+# Git
+# https://git-scm.com/
+
+# OpenSSL（暗号化処理用）
+# macOS: brew install openssl
+# Ubuntu: sudo apt-get install openssl
+
+# Docker（オプション）
+# https://www.docker.com/get-started
 ```
 
 ### プロジェクト構造の確認
@@ -166,27 +191,40 @@ EOF
 
 ### テストの実行
 
-#### バックエンドテスト
+#### 自動テスト（推奨）
 ```bash
-cd jph-back-core
-bun test
+# 全テストを実行
+make test
+
+# バックエンドテストのみ
+make test-backend
+
+# フロントエンドテストのみ
+make test-frontend
+
+# テストカバレッジ
+make test-coverage
 ```
 
-#### フロントエンドテスト
+#### 手動テスト
 ```bash
+# バックエンドテスト
+cd jph-back-core
+bun test
+
+# フロントエンドテスト
 cd jph-front-core
 bun test
 ```
 
 ### テストカバレッジの確認
 ```bash
-# バックエンド
-cd jph-back-core
-bun test --coverage
+# 自動実行
+make test-coverage
 
-# フロントエンド
-cd jph-front-core
-bun test --coverage
+# 手動実行
+cd jph-back-core && bun test --coverage
+cd jph-front-core && bun test --coverage
 ```
 
 ---
@@ -250,13 +288,20 @@ services:
 
 ### Docker環境での起動
 ```bash
-# 全サービスを起動
+# 自動起動（推奨）
+make docker-up
+
+# 手動起動
 docker-compose up -d
 
 # ログの確認
+make logs
+# または
 docker-compose logs -f
 
 # 停止
+make docker-down
+# または
 docker-compose down
 ```
 
@@ -322,7 +367,21 @@ bun run dev 2>&1 | tee logs/frontend.log
 
 ### 開発環境の最適化
 
-#### Bunの設定
+#### 自動最適化（推奨）
+```bash
+# プロジェクト状態の確認
+make status
+
+# プロジェクト情報の表示
+make info
+
+# ログの確認
+make logs
+```
+
+#### 手動最適化
+
+##### Bunの設定
 ```bash
 # bunfig.toml を作成
 cat > bunfig.toml << EOF
@@ -335,7 +394,7 @@ bun = true
 EOF
 ```
 
-#### メモリ使用量の監視
+##### メモリ使用量の監視
 ```bash
 # メモリ使用量を確認
 ps aux | grep bun
@@ -350,7 +409,18 @@ export NODE_OPTIONS="--max-old-space-size=4096"
 
 ### 本番用設定
 
-#### 環境変数の設定
+#### 自動ビルド・デプロイ（推奨）
+```bash
+# 全プロジェクトをビルド
+make build
+
+# デプロイ実行
+make deploy
+```
+
+#### 手動設定
+
+##### 環境変数の設定
 ```bash
 # 本番用環境変数
 export NODE_ENV=production
@@ -358,7 +428,7 @@ export PORT=3000
 export OPRF_PRIVATE_KEY_PATH=/app/secrets/key.priv
 ```
 
-#### セキュリティ設定
+##### セキュリティ設定
 ```bash
 # ファイアウォール設定
 ufw allow 3000

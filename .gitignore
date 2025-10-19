@@ -70,6 +70,24 @@ web_modules/
 .env.*
 !.env.example
 
+# プロジェクト固有の環境変数ファイル
+jph-back-core/.env
+jph-back-core/.env.*
+jph-front-core/.env.local
+jph-front-core/.env.*
+!jph-back-core/.env.example
+!jph-front-core/.env.example
+
+# 秘密鍵ファイル
+jph-back-core/secrets/
+*.priv
+*.key
+*.pem
+
+# 設定ファイル（機密情報含む）
+config/secrets/
+secrets/
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
@@ -145,7 +163,8 @@ vite.config.ts.timestamp-*
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[]
+Icon[
+]
 
 # Thumbnails
 ._*

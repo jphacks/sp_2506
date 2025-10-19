@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "jph-front-core/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    },
+    {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/jph-front-core/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "git": {
+    "deploymentEnabled": {
+      "deploy": true,
+      "main": false,
+      "develop": false
+    }
+  },
+  "github": {
+    "autoAlias": false
+  }
+}
