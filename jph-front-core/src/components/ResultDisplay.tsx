@@ -50,12 +50,12 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                 >
                     <div className="relative">
                         <motion.div
-                            animate={{ 
+                            animate={{
                                 scale: [1, 1.1, 1],
                                 rotate: isError ? [0, -5, 5, 0] : [0, 5, -5, 0]
                             }}
-                            transition={{ 
-                                duration: 2, 
+                            transition={{
+                                duration: 2,
                                 repeat: Infinity,
                                 ease: "easeInOut"
                             }}
@@ -67,12 +67,12 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                             )}
                         </motion.div>
                         <motion.div
-                            animate={{ 
+                            animate={{
                                 scale: [1, 1.3, 1],
                                 rotate: [0, 180, 360]
                             }}
-                            transition={{ 
-                                duration: 1.5, 
+                            transition={{
+                                duration: 1.5,
                                 repeat: Infinity,
                                 ease: "easeInOut"
                             }}
@@ -81,11 +81,10 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                         </motion.div>
                     </div>
                 </motion.div>
-                
+
                 <motion.h2
-                    className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3 ${
-                        isError ? 'text-red-400' : 'text-green-400'
-                    }`}
+                    className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3 ${isError ? 'text-red-400' : 'text-green-400'
+                        }`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
@@ -93,7 +92,7 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                 >
                     {isError ? '処理エラー' : '処理完了'}
                 </motion.h2>
-                
+
                 <motion.p
                     className="text-sm sm:text-base text-secondary-300 px-4"
                     initial={{ opacity: 0, y: 20 }}
@@ -106,17 +105,16 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
 
             {/* 結果表示 */}
             <motion.div
-                className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl border ${
-                    isError 
-                        ? 'bg-red-500/10 border-red-500/20' 
-                        : 'bg-green-500/10 border-green-500/20'
-                }`}
+                className={`p-4 sm:p-6 rounded-xl sm:rounded-2xl border ${isError
+                    ? 'bg-red-500/10 border-red-500/20'
+                    : 'bg-green-500/10 border-green-500/20'
+                    }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
                 whileHover={{ scale: 1.01 }}
             >
-                <motion.h3 
+                <motion.h3
                     className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -134,13 +132,13 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                 <div className="space-y-2 sm:space-y-3">
                     <AnimatePresence>
                         {apiResult.map((item, index) => {
-                        const longPressProps = useLongPress(
-                            // 実行するコールバック関数に item (元の入力とAPI結果のペア) を渡す
-                            () => handleLongPress(index),
-                            () => handleRelease(),
-                            2000 // 3秒
-                        );
-                            <motion.div
+                            const longPressProps = useLongPress(
+                                // 実行するコールバック関数に item (元の入力とAPI結果のペア) を渡す
+                                () => handleLongPress(index),
+                                () => handleRelease(),
+                                2000 // 3秒
+                            );
+                            return <motion.div
                                 key={index}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -158,12 +156,12 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                                         </span>
                                         <div className="flex items-center gap-2">
                                             <motion.div
-                                                animate={{ 
+                                                animate={{
                                                     scale: [1, 1.2, 1],
                                                     rotate: [0, 10, -10, 0]
                                                 }}
-                                                transition={{ 
-                                                    duration: 1.5, 
+                                                transition={{
+                                                    duration: 1.5,
                                                     repeat: Infinity,
                                                     ease: "easeInOut"
                                                 }}
@@ -176,7 +174,7 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                                             </motion.div>
                                         </div>
                                     </div>
-                                    
+
                                     <motion.div
                                         className="text-white font-mono text-sm sm:text-base lg:text-lg break-all"
                                         layout
@@ -184,7 +182,7 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                                     >
                                         {index === longPressPressindex ? item.originalText : item.apiOutput}
                                     </motion.div>
-                                    
+
                                     {index === longPressPressindex && (
                                         <motion.div
                                             className="mt-2 text-xs text-accent-400"
@@ -196,7 +194,7 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                                     )}
                                 </div>
                             </motion.div>
-                        ))}
+                        })}
                     </AnimatePresence>
                 </div>
             </motion.div>
