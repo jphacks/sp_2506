@@ -3,9 +3,53 @@ import { Github, ExternalLink, RefreshCw, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
 import SecretSyncIcon from './components/SecretSyncIcon';
 import { useMobileDetection } from './hooks/useMobileDetection';
+import { useGSAPAnimations } from './hooks/useGSAPAnimations';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 
 function App() {
   const isMobile = useMobileDetection();
+  const gsapAnimations = useGSAPAnimations();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const particleRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      // コンテナのフェードインアニメーション
+      gsapAnimations.fadeIn(containerRef.current, 0);
+    }
+  }, [gsapAnimations]);
+
+  useEffect(() => {
+    // パーティクルアニメーションを設定（軽量版）
+    particleRefs.current.forEach((ref, index) => {
+      if (ref) {
+        if (isMobile) {
+          // モバイルでは最小限のアニメーション
+          gsap.to(ref, {
+            y: -30,
+            opacity: 0.4,
+            scale: 0.6,
+            duration: 3,
+            repeat: -1,
+            ease: "power1.out",
+            delay: index * 0.5
+          });
+        } else {
+          // デスクトップでも軽量化
+          gsap.to(ref, {
+            y: -60,
+            opacity: 0.6,
+            scale: 0.8,
+            duration: 4,
+            repeat: -1,
+            ease: "power1.out",
+            delay: index * 0.3
+          });
+        }
+      }
+    });
+  }, [gsapAnimations, isMobile]);
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-accent-900 relative overflow-hidden">
@@ -53,31 +97,21 @@ function App() {
         />
         
         {/* パーティクル効果 */}
-        {[...Array(isMobile ? 8 : 20)].map((_, i) => (
-          <motion.div
+        {[...Array(isMobile ? 4 : 8)].map((_, i) => (
+          <div
             key={i}
+            ref={el => particleRefs.current[i] = el}
             className="absolute w-2 h-2 bg-white/20 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, isMobile ? -50 : -100, 0],
-              opacity: [0, isMobile ? 0.6 : 1, 0],
-              scale: [0, isMobile ? 0.8 : 1, 0],
-            }}
-            transition={{
-              duration: isMobile ? 2 + Math.random() : 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * (isMobile ? 3 : 5),
-              ease: "easeInOut"
             }}
           />
         ))}
       </div>
 
       {/* メインコンテンツ */}
-      <div className="relative z-10">
+      <div ref={containerRef} className="relative z-10">
         <ApiFormContainer />
       </div>
 

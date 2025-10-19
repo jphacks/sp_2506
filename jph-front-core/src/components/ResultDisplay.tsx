@@ -2,7 +2,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { RotateCcw, CheckCircle, XCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { type DisplayResultItem } from './ApiFormContainer'; // 🔑 新しい型をインポート
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useFireworksAnimation } from '../hooks/useFireworksAnimation';
 
 type ResultDisplayProps = {
     // 🔑 型を変更: string[] から DisplayResultItem[] へ
@@ -13,6 +14,17 @@ type ResultDisplayProps = {
 
 function ResultDisplay({ apiResult, isError, onReset}: ResultDisplayProps) {
     const [longPressPressindex, setLongPressIndex] = useState<number | null>(null);
+    const fireworksAnimation = useFireworksAnimation();
+    
+    // 成功時の追加アニメーション
+    useEffect(() => {
+        if (apiResult && !isError) {
+            // 結果表示時に軽い花火を追加
+            setTimeout(() => {
+                fireworksAnimation.createFireworks();
+            }, 1000);
+        }
+    }, [apiResult, isError, fireworksAnimation]);
     
     if (!apiResult) {
         // 結果がない場合は何も表示しない（通常、ApiFormContainerで制御される）

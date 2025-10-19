@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RefreshCw, Database } from 'lucide-react';
 import SecretSyncIcon from './SecretSyncIcon';
 import { useMobileDetection } from '../hooks/useMobileDetection';
+import { useGSAPAnimations } from '../hooks/useGSAPAnimations';
+import { useFireworksAnimation } from '../hooks/useFireworksAnimation';
 
 // 外部コンポーネントをインポート
 import InputForm from './InputForm';
@@ -64,6 +66,8 @@ function ApiFormContainer() {
     // アニメーション用のref
     const containerRef = useRef<HTMLDivElement>(null);
     const isMobile = useMobileDetection();
+    const gsapAnimations = useGSAPAnimations();
+    const fireworksAnimation = useFireworksAnimation();
     const sparkleRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     // モバイル向けアニメーション設定
@@ -103,10 +107,24 @@ function ApiFormContainer() {
         }
     }, []);
 
-    // スパークルアニメーション
+    // スパークルアニメーション（軽量版）
     const createSparkleAnimation = () => {
         if (isMobile) {
-            // モバイルでは軽量なアニメーション
+            // モバイルでは最小限のアニメーション
+            sparkleRefs.current.forEach((ref, index) => {
+                if (ref) {
+                    anime({
+                        targets: ref,
+                        scale: [0, 0.6, 0],
+                        opacity: [0, 0.5, 0],
+                        duration: 1500,
+                        delay: index * 150,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            });
+        } else {
+            // デスクトップでも軽量化
             sparkleRefs.current.forEach((ref, index) => {
                 if (ref) {
                     anime({
@@ -114,24 +132,9 @@ function ApiFormContainer() {
                         scale: [0, 0.8, 0],
                         rotate: [0, 90],
                         opacity: [0, 0.7, 0],
-                        duration: 1200,
-                        delay: index * 100,
-                        easing: 'easeOutQuad'
-                    });
-                }
-            });
-        } else {
-            // デスクトップでは通常のアニメーション
-            sparkleRefs.current.forEach((ref, index) => {
-                if (ref) {
-                    anime({
-                        targets: ref,
-                        scale: [0, 1, 0],
-                        rotate: [0, 180, 360],
-                        opacity: [0, 1, 0],
                         duration: 2000,
-                        delay: index * 200,
-                        easing: 'easeOutExpo'
+                        delay: index * 300,
+                        easing: 'easeOutQuad'
                     });
                 }
             });
@@ -199,6 +202,13 @@ function ApiFormContainer() {
             // 新しいステートに保存
             setDisplayResults(combinedDisplayResults);
             // setApiResult(combinedResult);
+            
+            // 成功アニメーションを実行
+            setTimeout(() => {
+                fireworksAnimation.createSuccessSequence();
+                fireworksAnimation.createConfetti();
+                fireworksAnimation.createSuccessPulse();
+            }, 500);
 
         } catch {
             // const errorMessage = error instanceof Error ? error.message : '不明なエラーが発生しました。';
