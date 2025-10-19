@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@cloudflare/voprf-ts": "^1.0.0",
-    "animejs": "^3.2.1",
     "framer-motion": "^11.11.17",
     "gsap": "^3.13.0",
     "lucide-react": "^0.460.0",

@@ -2,8 +2,8 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Oprf, OPRFClient, Evaluation } from '@cloudflare/voprf-ts';
 import { type SubmitHandler } from 'react-hook-form';
-import anime from 'animejs';
 import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
 import { RefreshCw, Database } from 'lucide-react';
 import SecretSyncIcon from './SecretSyncIcon';
 import { useMobileDetection } from '../hooks/useMobileDetection';
@@ -107,38 +107,36 @@ function ApiFormContainer() {
         }
     }, []);
 
-    // スパークルアニメーション（軽量版）
+    // スパークルアニメーション（GSAP版）
     const createSparkleAnimation = () => {
-        if (isMobile) {
-            // モバイルでは最小限のアニメーション
-            sparkleRefs.current.forEach((ref, index) => {
-                if (ref) {
-                    anime({
-                        targets: ref,
-                        scale: [0, 0.6, 0],
-                        opacity: [0, 0.5, 0],
-                        duration: 1500,
-                        delay: index * 150,
-                        easing: 'easeOutQuad'
+        sparkleRefs.current.forEach((ref, index) => {
+            if (ref) {
+                if (isMobile) {
+                    // モバイルでは最小限のアニメーション
+                    gsap.to(ref, {
+                        scale: 0.6,
+                        opacity: 0.5,
+                        duration: 1.5,
+                        delay: index * 0.15,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "power1.out"
+                    });
+                } else {
+                    // デスクトップでも軽量化
+                    gsap.to(ref, {
+                        scale: 0.8,
+                        rotation: 90,
+                        opacity: 0.7,
+                        duration: 2,
+                        delay: index * 0.3,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "power1.out"
                     });
                 }
-            });
-        } else {
-            // デスクトップでも軽量化
-            sparkleRefs.current.forEach((ref, index) => {
-                if (ref) {
-                    anime({
-                        targets: ref,
-                        scale: [0, 0.8, 0],
-                        rotate: [0, 90],
-                        opacity: [0, 0.7, 0],
-                        duration: 2000,
-                        delay: index * 300,
-                        easing: 'easeOutQuad'
-                    });
-                }
-            });
-        }
+            }
+        });
     };
 
     // フォーム送信時の処理（InputFormから渡される）

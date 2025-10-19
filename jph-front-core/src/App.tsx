@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, RefreshCw, Database, Cloud } from 'lucide-react';
+import { Github, ExternalLink, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
 import SecretSyncIcon from './components/SecretSyncIcon';
 import { useMobileDetection } from './hooks/useMobileDetection';
@@ -30,26 +30,25 @@ function App() {
             y: -30,
             opacity: 0.4,
             scale: 0.6,
-            duration: 3,
+            duration: 10,
             repeat: -1,
             ease: "power1.out",
-            delay: index * 0.5
+            delay: index * 1
           });
         } else {
           // デスクトップでも軽量化
           gsap.to(ref, {
-            y: -60,
-            opacity: 0.6,
-            scale: 0.8,
-            duration: 4,
+            y: -40,
+            opacity: 0.4,
+            duration: 6,
             repeat: -1,
             ease: "power1.out",
-            delay: index * 0.3
+            delay: index * 10
           });
         }
       }
     });
-  }, [gsapAnimations, isMobile]);
+  }, [isMobile]);
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-accent-900 relative overflow-hidden">
@@ -59,45 +58,42 @@ function App() {
         <motion.div
           className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/20 rounded-full blur-3xl"
           animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-            scale: [1, 1.1, 1],
+            x: [0, 20, 0],
+            y: [0, -15, 0],
           }}
           transition={{
-            duration: 8,
+            duration: 12,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "linear"
           }}
         />
         <motion.div
           className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-500/20 rounded-full blur-3xl"
           animate={{
-            x: [0, -50, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.2, 1],
+            x: [0, -20, 0],
+            y: [0, 15, 0],
           }}
           transition={{
-            duration: 10,
+            duration: 15,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "linear",
             delay: 2
           }}
         />
         <motion.div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl"
           animate={{
-            rotate: [0, 360],
-            scale: [1, 1.3, 1],
+            rotate: [0, 180],
           }}
           transition={{
-            duration: 15,
+            duration: 30,
             repeat: Infinity,
             ease: "linear"
           }}
         />
         
         {/* パーティクル効果 */}
-        {[...Array(isMobile ? 4 : 8)].map((_, i) => (
+        {[...Array(isMobile ? 2 : 4)].map((_, i) => (
           <div
             key={i}
             ref={el => particleRefs.current[i] = el}
@@ -133,19 +129,13 @@ function App() {
               <div className="flex items-center gap-2">
                 <motion.div
                   whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 10 }}
                 >
                   <SecretSyncIcon size={24} className="text-primary-400" />
                 </motion.div>
                 <span className="text-white font-semibold text-lg">Secret Sync</span>
               </div>
               <div className="flex items-center gap-1 text-secondary-400">
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <RefreshCw className="w-4 h-4" />
-                </motion.div>
                 <span className="text-sm">Secure Sync</span>
               </div>
             </motion.div>
@@ -163,8 +153,8 @@ function App() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  animate={{ rotate: [0, 180] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                 >
                   <Database className="w-4 h-4 text-accent-400" />
                 </motion.div>
@@ -176,8 +166,8 @@ function App() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
                 >
                   <Cloud className="w-4 h-4 text-primary-400" />
                 </motion.div>
