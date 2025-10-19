@@ -133,7 +133,7 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
 
                 <div className="space-y-2 sm:space-y-3">
                     <AnimatePresence>
-                        {apiResult.map((item, index) => (
+                        {apiResult.map((item, index) => {
                         const longPressProps = useLongPress(
                             // 実行するコールバック関数に item (元の入力とAPI結果のペア) を渡す
                             () => handleLongPress(index),
