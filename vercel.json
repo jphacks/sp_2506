@@ -11,10 +11,7 @@
     },
     {
       "src": "api/**/*.ts",
-      "use": "@vercel/node",
-      "config": {
-        "maxDuration": 30
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -29,6 +26,11 @@
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/upload-binary.ts": {
+      "maxDuration": 30
+    }
   },
   "git": {
     "deploymentEnabled": {
