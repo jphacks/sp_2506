@@ -130,13 +130,12 @@ export const useGSAPAnimations = () => {
     });
   };
 
-  // スパークルアニメーション（軽量版）
+  // スパークルアニメーション（軽量版・回転なし）
   const sparkleAnimation = (element: HTMLElement, index: number) => {
     if (isMobile) {
       // モバイルでは最小限のアニメーション
       gsap.to(element, {
         scale: 0.6,
-        rotation: 45,
         opacity: 0.5,
         duration: 1.5,
         ease: "power1.out",
@@ -145,10 +144,9 @@ export const useGSAPAnimations = () => {
         yoyo: true
       });
     } else {
-      // デスクトップでも軽量化
+      // デスクトップでも軽量化（回転なし）
       gsap.to(element, {
         scale: 0.8,
-        rotation: 90,
         opacity: 0.7,
         duration: 2,
         ease: "power1.out",

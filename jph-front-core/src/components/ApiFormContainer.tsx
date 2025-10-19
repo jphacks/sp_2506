@@ -125,10 +125,9 @@ function ApiFormContainer() {
                         ease: "power1.out"
                     });
                 } else {
-                    // デスクトップでも軽量化
+                    // デスクトップでも軽量化（回転なし）
                     gsap.to(ref, {
                         scale: 0.8,
-                        rotation: 90,
                         opacity: 0.7,
                         duration: 2,
                         delay: index * 0.3,
