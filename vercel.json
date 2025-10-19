@@ -5,7 +5,8 @@
       "src": "jph-front-core/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist"
+        "distDir": "dist",
+        "buildCommand": "cd jph-front-core && bun run build"
       }
     },
     {
