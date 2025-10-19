@@ -80,7 +80,7 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                     transition={{ delay: 0.4, duration: 0.6 }}
                     whileHover={{ scale: 1.02 }}
                 >
-                    機密データ同期
+                    Secret Sync
                 </motion.h2>
                 <motion.p 
                     className="text-sm sm:text-base text-secondary-300 px-4"

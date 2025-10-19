@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Shield, Lock, Zap, Sparkles, Github, ExternalLink, Key, RefreshCw, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
+import SecretSyncIcon from './components/SecretSyncIcon';
 
 function App() {
   return (
@@ -94,10 +95,10 @@ function App() {
             >
               <div className="flex items-center gap-2">
                 <motion.div
-                  whileHover={{ rotate: 360 }}
+                  whileHover={{ rotate: 360, scale: 1.1 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Key className="w-6 h-6 text-primary-400" />
+                  <SecretSyncIcon size={24} className="text-primary-400" />
                 </motion.div>
                 <span className="text-white font-semibold text-lg">Secret Sync</span>
               </div>

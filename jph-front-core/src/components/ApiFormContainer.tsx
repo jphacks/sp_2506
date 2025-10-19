@@ -5,6 +5,7 @@ import { type SubmitHandler } from 'react-hook-form';
 import anime from 'animejs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Lock, Zap, Sparkles, Key, RefreshCw, Database, Cloud } from 'lucide-react';
+import SecretSyncIcon from './SecretSyncIcon';
 
 // 外部コンポーネントをインポート
 import InputForm from './InputForm';
@@ -208,7 +209,7 @@ function ApiFormContainer() {
                                     ease: "easeInOut"
                                 }}
                             >
-                                <Key className="w-12 h-12 sm:w-16 sm:h-16 text-primary-500" />
+                                <SecretSyncIcon size={64} className="text-primary-500" />
                             </motion.div>
                             <motion.div
                                 animate={{ 
