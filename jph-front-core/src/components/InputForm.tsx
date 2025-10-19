@@ -35,25 +35,61 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
             transition={{ duration: 0.6 }}
         >
             {/* ヘッダー */}
-            <div className="text-center">
+            <div className="text-center mb-6 sm:mb-8">
                 <motion.div
-                    className="flex items-center justify-center mb-4"
+                    className="flex items-center justify-center mb-4 sm:mb-6"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                    whileHover={{ scale: 1.1 }}
                 >
                     <div className="relative">
-                        <Lock className="w-8 h-8 text-primary-500" />
-                        <Sparkles className="absolute -top-1 -right-1 w-4 h-4 text-accent-400 animate-pulse" />
+                        <motion.div
+                            animate={{ 
+                                rotate: [0, 10, -10, 0],
+                                scale: [1, 1.1, 1]
+                            }}
+                            transition={{ 
+                                duration: 3, 
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                        >
+                            <Lock className="w-8 h-8 sm:w-10 sm:h-10 text-primary-500" />
+                        </motion.div>
+                        <motion.div
+                            animate={{ 
+                                scale: [1, 1.2, 1],
+                                rotate: [0, 180, 360]
+                            }}
+                            transition={{ 
+                                duration: 2, 
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                        >
+                            <Sparkles className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 text-accent-400" />
+                        </motion.div>
                     </div>
                 </motion.div>
                 
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <motion.h2 
+                    className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                    whileHover={{ scale: 1.02 }}
+                >
                     セキュアデータ入力
-                </h2>
-                <p className="text-secondary-300">
+                </motion.h2>
+                <motion.p 
+                    className="text-sm sm:text-base text-secondary-300 px-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.6 }}
+                >
                     最大{maxInputs}個のテキストを安全に処理します
-                </p>
+                </motion.p>
             </div>
 
             {/* 入力フィールド */}
@@ -69,17 +105,19 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                             className="flex items-center gap-3"
                         >
                             <div className="flex-1">
-                                <input
+                                <motion.input
                                     type="text"
                                     placeholder={`入力テキスト ${index + 1}`}
-                                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-secondary-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg sm:rounded-xl text-white placeholder-secondary-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 text-sm sm:text-base"
                                     {...register(`inputs.${index}.text` as const, {
                                         required: "テキストは必須です",
                                     })}
+                                    whileFocus={{ scale: 1.02 }}
+                                    whileHover={{ borderColor: "rgba(255,255,255,0.3)" }}
                                 />
                                 {errors.inputs?.[index]?.text && (
                                     <motion.p
-                                        className="text-red-400 text-sm mt-1"
+                                        className="text-red-400 text-xs sm:text-sm mt-1"
                                         initial={{ opacity: 0, y: -10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                     >
@@ -109,11 +147,16 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
                 <motion.button
                     type="button"
                     onClick={() => append({ text: '' })}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white transition-all duration-300 hover:scale-105"
-                    whileHover={{ scale: 1.02 }}
+                    className="w-full flex items-center justify-center gap-2 px-3 sm:px-4 py-2 sm:py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg sm:rounded-xl text-white transition-all duration-300 hover:scale-105 text-sm sm:text-base"
+                    whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <Plus className="w-5 h-5" />
+                    <motion.div
+                        animate={{ rotate: [0, 90, 0] }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </motion.div>
                     入力フィールドを追加 (残り: {maxInputs - fields.length})
                 </motion.button>
             )}
@@ -122,8 +165,8 @@ function InputForm({ onSubmit, maxInputs }: InputFormProps) {
             <motion.button
                 type="submit"
                 disabled={isSubmitting || fields.length === 0}
-                className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 disabled:from-secondary-400 disabled:to-secondary-500 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary-500/25"
-                whileHover={{ scale: 1.02 }}
+                className="w-full flex items-center justify-center gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-primary-500 to-accent-500 hover:from-primary-600 hover:to-accent-600 disabled:from-secondary-400 disabled:to-secondary-500 disabled:cursor-not-allowed text-white font-semibold rounded-lg sm:rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary-500/25 text-sm sm:text-base"
+                whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
             >
                 {isSubmitting ? (

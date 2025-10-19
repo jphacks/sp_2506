@@ -178,46 +178,61 @@ function ApiFormContainer() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
             <motion.div
                 ref={containerRef}
                 className="w-full max-w-4xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
+                whileHover={{ scale: 1.01 }}
             >
                 {/* ヘッダーセクション */}
-                <div className="text-center mb-8">
+                <div className="text-center mb-6 sm:mb-8 lg:mb-12">
                     <motion.div
-                        className="flex items-center justify-center mb-4"
+                        className="flex items-center justify-center mb-4 sm:mb-6"
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                        whileHover={{ scale: 1.1 }}
                     >
                         <div className="relative">
-                            <Shield className="w-16 h-16 text-primary-500 animate-pulse-slow" />
+                            <motion.div
+                                animate={{ 
+                                    rotate: [0, 5, -5, 0],
+                                    scale: [1, 1.05, 1]
+                                }}
+                                transition={{ 
+                                    duration: 4, 
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <Shield className="w-12 h-12 sm:w-16 sm:h-16 text-primary-500" />
+                            </motion.div>
                             <Sparkles 
                                 ref={el => sparkleRefs.current[0] = el}
-                                className="absolute -top-2 -right-2 w-6 h-6 text-accent-400"
+                                className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 text-accent-400"
                             />
                             <Sparkles 
                                 ref={el => sparkleRefs.current[1] = el}
-                                className="absolute -bottom-2 -left-2 w-4 h-4 text-accent-300"
+                                className="absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 w-3 h-3 sm:w-4 sm:h-4 text-accent-300"
                             />
                         </div>
                     </motion.div>
                     
                     <motion.h1 
-                        className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary-600 via-accent-500 to-primary-400 bg-clip-text text-transparent mb-4"
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary-600 via-accent-500 to-primary-400 bg-clip-text text-transparent mb-3 sm:mb-4 leading-tight"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.6 }}
+                        whileHover={{ scale: 1.02 }}
                     >
                         OPRF セキュア処理
                     </motion.h1>
                     
                     <motion.p 
-                        className="text-lg text-secondary-600 max-w-2xl mx-auto"
+                        className="text-base sm:text-lg text-secondary-300 max-w-2xl mx-auto px-4"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6, duration: 0.6 }}
@@ -228,10 +243,14 @@ function ApiFormContainer() {
 
                 {/* メインコンテンツ */}
                 <motion.div
-                    className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20"
+                    className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl border border-white/20 hover:border-white/30 transition-all duration-300"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.8, duration: 0.6 }}
+                    whileHover={{ 
+                        scale: 1.02,
+                        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                    }}
                 >
                     <AnimatePresence mode="wait">
                         {!isResultView || !userInputData ? (
