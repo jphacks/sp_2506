@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RotateCcw, CheckCircle, XCircle, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { type DisplayResultItem } from './ApiFormContainer'; // 🔑 新しい型をインポート
 import { useState, useEffect } from 'react';
-import { useLongPress } from '../hooks/userLongPress';
 import { useFireworksAnimation } from '../hooks/useFireworksAnimation';
 
 type ResultDisplayProps = {
@@ -32,15 +31,10 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
         return null;
     }
 
-    const handleLongPress = (index: number) => {
-        // 元の入力テキストをメッセージに含める
-        // const message = `💡 元の入力 ${index + 1}: 「${item.originalText}」`;
-        setLongPressIndex(index);
-        console.log(index);
+    // クリックハンドラー（長押しの代わりにクリックで切り替え）
+    const handleClick = (index: number) => {
+        setLongPressIndex(longPressPressindex === index ? null : index);
     };
-    const handleRelease = () => {
-        setLongPressIndex(-1);
-    }
 
     return (
         <motion.div
@@ -141,21 +135,15 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
 
                 <div className="space-y-2 sm:space-y-3">
                     <AnimatePresence>
-                        {apiResult.map((item, index) => {
-                            const longPressProps = useLongPress(
-                                // 実行するコールバック関数に item (元の入力とAPI結果のペア) を渡す
-                                () => handleLongPress(index),
-                                () => handleRelease(),
-                                2000 // 3秒
-                            );
-                            return <motion.div
+                        {apiResult.map((item, index) => (
+                            <motion.div
                                 key={index}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 20 }}
                                 transition={{ delay: index * 0.1, duration: 0.3 }}
                                 className="group cursor-pointer"
-                                {...longPressProps}
+                                onClick={() => handleClick(index)}
                                 whileHover={{ scale: 1.02, y: -2 }}
                                 whileTap={{ scale: 0.98 }}
                             >
@@ -204,7 +192,7 @@ function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
                                     )}
                                 </div>
                             </motion.div>
-                        })}
+                        ))}
                     </AnimatePresence>
                 </div>
             </motion.div>
