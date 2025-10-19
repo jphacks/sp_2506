@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Shield, Lock, Zap, Sparkles, Github, ExternalLink, Key, RefreshCw, Database, Cloud } from 'lucide-react';
+import { Github, ExternalLink, RefreshCw, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
 import SecretSyncIcon from './components/SecretSyncIcon';
 

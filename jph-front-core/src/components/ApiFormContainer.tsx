@@ -4,7 +4,7 @@ import { Oprf, OPRFClient, Evaluation } from '@cloudflare/voprf-ts';
 import { type SubmitHandler } from 'react-hook-form';
 import anime from 'animejs';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Zap, Sparkles, Key, RefreshCw, Database, Cloud } from 'lucide-react';
+import { RefreshCw, Database } from 'lucide-react';
 import SecretSyncIcon from './SecretSyncIcon';
 
 // 外部コンポーネントをインポート
