@@ -2,11 +2,13 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Oprf, OPRFClient, Evaluation } from '@cloudflare/voprf-ts';
 import { type SubmitHandler } from 'react-hook-form';
-import anime from 'animejs';
 import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
 import { RefreshCw, Database } from 'lucide-react';
 import SecretSyncIcon from './SecretSyncIcon';
 import { useMobileDetection } from '../hooks/useMobileDetection';
+// import { useGSAPAnimations } from '../hooks/useGSAPAnimations';
+import { useFireworksAnimation } from '../hooks/useFireworksAnimation';
 
 // 外部コンポーネントをインポート
 import InputForm from './InputForm';
@@ -64,20 +66,22 @@ function ApiFormContainer() {
     // アニメーション用のref
     const containerRef = useRef<HTMLDivElement>(null);
     const isMobile = useMobileDetection();
+    // const gsapAnimations = useGSAPAnimations();
+    const fireworksAnimation = useFireworksAnimation();
     const sparkleRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     // モバイル向けアニメーション設定
-    const getAnimationConfig = (baseConfig: any) => {
-        if (isMobile) {
-            return {
-                ...baseConfig,
-                duration: baseConfig.duration ? baseConfig.duration * 0.6 : 600,
-                delay: baseConfig.delay ? baseConfig.delay * 0.5 : 0,
-                easing: 'easeOutQuad'
-            };
-        }
-        return baseConfig;
-    };
+    // const getAnimationConfig = (baseConfig: any) => {
+    //     if (isMobile) {
+    //         return {
+    //             ...baseConfig,
+    //             duration: baseConfig.duration ? baseConfig.duration * 0.6 : 600,
+    //             delay: baseConfig.delay ? baseConfig.delay * 0.5 : 0,
+    //             easing: 'easeOutQuad'
+    //         };
+    //     }
+    //     return baseConfig;
+    // };
 
 
     // フォームリセットと入力画面に戻る処理
@@ -90,52 +94,50 @@ function ApiFormContainer() {
 
     const [userInputData, setUserInputData] = useState<FormData | null>(null);
 
-    // アニメーション効果
+    // アニメーション効果（GSAP版）
     useEffect(() => {
         if (containerRef.current) {
-            anime({
-                targets: containerRef.current,
-                opacity: [0, 1],
-                translateY: [20, 0],
-                duration: 800,
-                easing: 'easeOutExpo'
-            });
+            gsap.fromTo(containerRef.current, 
+                { opacity: 0, y: 20 },
+                { 
+                    opacity: 1, 
+                    y: 0, 
+                    duration: 0.8, 
+                    ease: "power2.out" 
+                }
+            );
         }
     }, []);
 
-    // スパークルアニメーション
+    // スパークルアニメーション（GSAP版）
     const createSparkleAnimation = () => {
-        if (isMobile) {
-            // モバイルでは軽量なアニメーション
-            sparkleRefs.current.forEach((ref, index) => {
-                if (ref) {
-                    anime({
-                        targets: ref,
-                        scale: [0, 0.8, 0],
-                        rotate: [0, 90],
-                        opacity: [0, 0.7, 0],
-                        duration: 1200,
-                        delay: index * 100,
-                        easing: 'easeOutQuad'
+        sparkleRefs.current.forEach((ref, index) => {
+            if (ref) {
+                if (isMobile) {
+                    // モバイルでは最小限のアニメーション
+                    gsap.to(ref, {
+                        scale: 0.6,
+                        opacity: 0.5,
+                        duration: 1.5,
+                        delay: index * 0.15,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "power1.out"
+                    });
+                } else {
+                    // デスクトップでも軽量化（回転なし）
+                    gsap.to(ref, {
+                        scale: 0.8,
+                        opacity: 0.7,
+                        duration: 2,
+                        delay: index * 0.3,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "power1.out"
                     });
                 }
-            });
-        } else {
-            // デスクトップでは通常のアニメーション
-            sparkleRefs.current.forEach((ref, index) => {
-                if (ref) {
-                    anime({
-                        targets: ref,
-                        scale: [0, 1, 0],
-                        rotate: [0, 180, 360],
-                        opacity: [0, 1, 0],
-                        duration: 2000,
-                        delay: index * 200,
-                        easing: 'easeOutExpo'
-                    });
-                }
-            });
-        }
+            }
+        });
     };
 
     // フォーム送信時の処理（InputFormから渡される）
@@ -199,6 +201,13 @@ function ApiFormContainer() {
             // 新しいステートに保存
             setDisplayResults(combinedDisplayResults);
             // setApiResult(combinedResult);
+            
+            // 成功アニメーションを実行
+            setTimeout(() => {
+                fireworksAnimation.createSuccessSequence();
+                fireworksAnimation.createConfetti();
+                fireworksAnimation.createSuccessPulse();
+            }, 500);
 
         } catch {
             // const errorMessage = error instanceof Error ? error.message : '不明なエラーが発生しました。';
@@ -232,10 +241,6 @@ function ApiFormContainer() {
                     >
                         <div className="relative">
                             <motion.div
-                                animate={{ 
-                                    rotate: [0, 5, -5, 0],
-                                    scale: [1, 1.05, 1]
-                                }}
                                 transition={{ 
                                     duration: 4, 
                                     repeat: Infinity,
@@ -245,10 +250,6 @@ function ApiFormContainer() {
                                 <SecretSyncIcon size={64} className="text-primary-500" />
                             </motion.div>
                             <motion.div
-                                animate={{ 
-                                    rotate: [0, 360],
-                                    scale: [1, 1.2, 1]
-                                }}
                                 transition={{ 
                                     duration: 3, 
                                     repeat: Infinity,
@@ -256,15 +257,10 @@ function ApiFormContainer() {
                                 }}
                             >
                                 <RefreshCw 
-                                    ref={el => sparkleRefs.current[0] = el}
                                     className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 text-accent-400"
                                 />
                             </motion.div>
                             <motion.div
-                                animate={{ 
-                                    scale: [1, 1.3, 1],
-                                    rotate: [0, 180, 360]
-                                }}
                                 transition={{ 
                                     duration: 2, 
                                     repeat: Infinity,
@@ -272,7 +268,6 @@ function ApiFormContainer() {
                                 }}
                             >
                                 <Database 
-                                    ref={el => sparkleRefs.current[1] = el}
                                     className="absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 w-3 h-3 sm:w-4 sm:h-4 text-accent-300"
                                 />
                             </motion.div>

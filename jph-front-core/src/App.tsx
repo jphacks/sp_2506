@@ -1,12 +1,55 @@
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, RefreshCw, Database, Cloud } from 'lucide-react';
+import { Github, ExternalLink, Database, Cloud } from 'lucide-react';
 import ApiFormContainer from './components/ApiFormContainer';
 import SecretSyncIcon from './components/SecretSyncIcon';
 import { useMobileDetection } from './hooks/useMobileDetection';
+import { useGSAPAnimations } from './hooks/useGSAPAnimations';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 
 function App() {
   const isMobile = useMobileDetection();
-  
+  const gsapAnimations = useGSAPAnimations();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const particleRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      // コンテナのフェードインアニメーション
+      gsapAnimations.fadeIn(containerRef.current, 0);
+    }
+  }, [gsapAnimations]);
+
+  useEffect(() => {
+    // パーティクルアニメーションを設定（軽量版）
+    particleRefs.current.forEach((ref, index) => {
+      if (ref) {
+        if (isMobile) {
+          // モバイルでは最小限のアニメーション
+          gsap.to(ref, {
+            y: -30,
+            opacity: 0.4,
+            scale: 0.6,
+            duration: 10,
+            repeat: -1,
+            ease: "power1.out",
+            delay: index * 1
+          });
+        } else {
+          // デスクトップでも軽量化
+          gsap.to(ref, {
+            y: -40,
+            opacity: 0.4,
+            duration: 6,
+            repeat: -1,
+            ease: "power1.out",
+            delay: index * 10
+          });
+        }
+      }
+    });
+  }, [isMobile]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-accent-900 relative overflow-hidden">
       {/* 動的背景装飾 */}
@@ -15,69 +58,55 @@ function App() {
         <motion.div
           className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/20 rounded-full blur-3xl"
           animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-            scale: [1, 1.1, 1],
+            x: [0, 20, 0],
+            y: [0, -15, 0],
           }}
           transition={{
-            duration: 8,
+            duration: 12,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "linear"
           }}
         />
         <motion.div
           className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent-500/20 rounded-full blur-3xl"
           animate={{
-            x: [0, -50, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.2, 1],
+            x: [0, -20, 0],
+            y: [0, 15, 0],
           }}
           transition={{
-            duration: 10,
+            duration: 15,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: "linear",
             delay: 2
           }}
         />
         <motion.div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-secondary-500/10 rounded-full blur-3xl"
           animate={{
-            rotate: [0, 360],
-            scale: [1, 1.3, 1],
+            rotate: [0, 180],
           }}
           transition={{
-            duration: 15,
+            duration: 30,
             repeat: Infinity,
             ease: "linear"
           }}
         />
-        
+
         {/* パーティクル効果 */}
-        {[...Array(isMobile ? 8 : 20)].map((_, i) => (
-          <motion.div
+        {[...Array(isMobile ? 2 : 4)].map((_, i) => (
+          <div
             key={i}
             className="absolute w-2 h-2 bg-white/20 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
-            animate={{
-              y: [0, isMobile ? -50 : -100, 0],
-              opacity: [0, isMobile ? 0.6 : 1, 0],
-              scale: [0, isMobile ? 0.8 : 1, 0],
-            }}
-            transition={{
-              duration: isMobile ? 2 + Math.random() : 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * (isMobile ? 3 : 5),
-              ease: "easeInOut"
-            }}
           />
         ))}
       </div>
 
       {/* メインコンテンツ */}
-      <div className="relative z-10">
+      <div ref={containerRef} className="relative z-10">
         <ApiFormContainer />
       </div>
 
@@ -99,19 +128,13 @@ function App() {
               <div className="flex items-center gap-2">
                 <motion.div
                   whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 10 }}
                 >
                   <SecretSyncIcon size={24} className="text-primary-400" />
                 </motion.div>
                 <span className="text-white font-semibold text-lg">Secret Sync</span>
               </div>
               <div className="flex items-center gap-1 text-secondary-400">
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <RefreshCw className="w-4 h-4" />
-                </motion.div>
                 <span className="text-sm">Secure Sync</span>
               </div>
             </motion.div>
@@ -129,8 +152,8 @@ function App() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                  animate={{ rotate: [0, 180] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                 >
                   <Database className="w-4 h-4 text-accent-400" />
                 </motion.div>
@@ -142,8 +165,8 @@ function App() {
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 3, repeat: Infinity }}
                 >
                   <Cloud className="w-4 h-4 text-primary-400" />
                 </motion.div>
@@ -174,7 +197,7 @@ function App() {
                 </motion.div>
                 <span className="text-sm font-medium">GitHub</span>
               </motion.a>
-              
+
               <motion.a
                 href="https://jphacks.com"
                 target="_blank"
