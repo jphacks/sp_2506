@@ -19,7 +19,7 @@ export default defineConfig({
           // 大きなライブラリを分離
           vendor: ['react', 'react-dom'],
           voprf: ['@cloudflare/voprf-ts'],
-          animation: ['framer-motion', 'animejs']
+          animation: ['framer-motion']
         }
       }
     },
@@ -37,7 +37,6 @@ export default defineConfig({
       'react-dom',
       '@cloudflare/voprf-ts',
       'framer-motion',
-      'animejs',
       'lucide-react'
     ]
   }
