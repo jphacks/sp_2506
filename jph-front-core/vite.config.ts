@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
   build: {
     // ビルド最適化設定
     target: 'esnext',
@@ -14,8 +18,8 @@ export default defineConfig({
         manualChunks: {
           // 大きなライブラリを分離
           vendor: ['react', 'react-dom'],
-          mui: ['@mui/material', '@mui/icons-material'],
-          voprf: ['@cloudflare/voprf-ts']
+          voprf: ['@cloudflare/voprf-ts'],
+          animation: ['framer-motion', 'animejs']
         }
       }
     },
@@ -31,9 +35,10 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
-      '@mui/material',
-      '@mui/icons-material',
-      '@cloudflare/voprf-ts'
+      '@cloudflare/voprf-ts',
+      'framer-motion',
+      'animejs',
+      'lucide-react'
     ]
   }
 })

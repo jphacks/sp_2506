@@ -1,8 +1,12 @@
 // src/components/ApiFormContainer.tsx
-import { useState, useCallback } from 'react';
-import { Box } from '@mui/material';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Oprf, OPRFClient, Evaluation } from '@cloudflare/voprf-ts';
 import { type SubmitHandler } from 'react-hook-form';
+import anime from 'animejs';
+import { motion, AnimatePresence } from 'framer-motion';
+import { RefreshCw, Database } from 'lucide-react';
+import SecretSyncIcon from './SecretSyncIcon';
+import { useMobileDetection } from '../hooks/useMobileDetection';
 
 // 外部コンポーネントをインポート
 import InputForm from './InputForm';
@@ -51,11 +55,29 @@ const MAX_INPUTS = 10;
 function ApiFormContainer() {
     // 画面切り替えの状態管理
     const [isResultView, setIsResultView] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     // API結果とエラー状態の管理
-    // const [apiResult, setApiResult] = useState<string[] | null>(null);
     const [isError, setIsError] = useState<boolean>(false);
     const [displayResults, setDisplayResults] = useState<DisplayResultItem[] | null>(null);
+    
+    // アニメーション用のref
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isMobile = useMobileDetection();
+    const sparkleRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // モバイル向けアニメーション設定
+    const getAnimationConfig = (baseConfig: any) => {
+        if (isMobile) {
+            return {
+                ...baseConfig,
+                duration: baseConfig.duration ? baseConfig.duration * 0.6 : 600,
+                delay: baseConfig.delay ? baseConfig.delay * 0.5 : 0,
+                easing: 'easeOutQuad'
+            };
+        }
+        return baseConfig;
+    };
 
 
     // フォームリセットと入力画面に戻る処理
@@ -68,17 +90,67 @@ function ApiFormContainer() {
 
     const [userInputData, setUserInputData] = useState<FormData | null>(null);
 
+    // アニメーション効果
+    useEffect(() => {
+        if (containerRef.current) {
+            anime({
+                targets: containerRef.current,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 800,
+                easing: 'easeOutExpo'
+            });
+        }
+    }, []);
+
+    // スパークルアニメーション
+    const createSparkleAnimation = () => {
+        if (isMobile) {
+            // モバイルでは軽量なアニメーション
+            sparkleRefs.current.forEach((ref, index) => {
+                if (ref) {
+                    anime({
+                        targets: ref,
+                        scale: [0, 0.8, 0],
+                        rotate: [0, 90],
+                        opacity: [0, 0.7, 0],
+                        duration: 1200,
+                        delay: index * 100,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            });
+        } else {
+            // デスクトップでは通常のアニメーション
+            sparkleRefs.current.forEach((ref, index) => {
+                if (ref) {
+                    anime({
+                        targets: ref,
+                        scale: [0, 1, 0],
+                        rotate: [0, 180, 360],
+                        opacity: [0, 1, 0],
+                        duration: 2000,
+                        delay: index * 200,
+                        easing: 'easeOutExpo'
+                    });
+                }
+            });
+        }
+    };
+
     // フォーム送信時の処理（InputFormから渡される）
     const onSubmit: SubmitHandler<FormData> = async (data) => {
         const allInputs = data.inputs.map(item => item.text).filter(text => text.trim() !== '');
 
         if (allInputs.length === 0) {
-            // setApiResult(['エラー: 有効な入力テキストがありません。']);
             setIsError(true);
             setIsResultView(true);
             return;
         }
+        
         setUserInputData(data);
+        setIsLoading(true);
+        createSparkleAnimation();
 
         const idPromises = allInputs.map(title => fetchUniqueId(title));
         const uniqueIds = await Promise.all(idPromises);
@@ -133,31 +205,165 @@ function ApiFormContainer() {
             // setApiResult([`エラー: ${errorMessage}`]);
             setIsError(true);
         } finally {
+            setIsLoading(false);
             // 処理完了後、結果画面に切り替え
             setIsResultView(true);
         }
     };
 
     return (
-        <Box
-            sx={{ maxWidth: 600, margin: 'auto', padding: 4, boxShadow: 3, borderRadius: 2 }}
-        >
-            {/* 画面切り替えのロジック */}
-            {!isResultView || !userInputData ? (
-                // 入力フォームの表示
-                <InputForm
-                    onSubmit={onSubmit}
-                    maxInputs={MAX_INPUTS}
-                />
-            ) : (
-                // 結果表示の表示
-                <ResultDisplay
-                    apiResult={displayResults}
-                    isError={isError}
-                    onReset={handleReset}
-                />
-            )}
-        </Box>
+        <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+            <motion.div
+                ref={containerRef}
+                className="w-full max-w-4xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                whileHover={{ scale: 1.01 }}
+            >
+                {/* ヘッダーセクション */}
+                <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+                    <motion.div
+                        className="flex items-center justify-center mb-4 sm:mb-6"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                        whileHover={{ scale: 1.1 }}
+                    >
+                        <div className="relative">
+                            <motion.div
+                                animate={{ 
+                                    rotate: [0, 5, -5, 0],
+                                    scale: [1, 1.05, 1]
+                                }}
+                                transition={{ 
+                                    duration: 4, 
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <SecretSyncIcon size={64} className="text-primary-500" />
+                            </motion.div>
+                            <motion.div
+                                animate={{ 
+                                    rotate: [0, 360],
+                                    scale: [1, 1.2, 1]
+                                }}
+                                transition={{ 
+                                    duration: 3, 
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <RefreshCw 
+                                    ref={el => sparkleRefs.current[0] = el}
+                                    className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 text-accent-400"
+                                />
+                            </motion.div>
+                            <motion.div
+                                animate={{ 
+                                    scale: [1, 1.3, 1],
+                                    rotate: [0, 180, 360]
+                                }}
+                                transition={{ 
+                                    duration: 2, 
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                }}
+                            >
+                                <Database 
+                                    ref={el => sparkleRefs.current[1] = el}
+                                    className="absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 w-3 h-3 sm:w-4 sm:h-4 text-accent-300"
+                                />
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                    
+                    <motion.h1 
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary-600 via-accent-500 to-primary-400 bg-clip-text text-transparent mb-3 sm:mb-4 leading-tight"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.6 }}
+                        whileHover={{ scale: 1.02 }}
+                    >
+                        Secret Sync
+                    </motion.h1>
+                    
+                    <motion.p 
+                        className="text-base sm:text-lg text-secondary-300 max-w-2xl mx-auto px-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.6 }}
+                    >
+                        機密情報を安全に同期・共有する次世代プラットフォーム
+                    </motion.p>
+                </div>
+
+                {/* メインコンテンツ */}
+                <motion.div
+                    className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl border border-white/20 hover:border-white/30 transition-all duration-300"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                    whileHover={{ 
+                        scale: 1.02,
+                        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                    }}
+                >
+                    <AnimatePresence mode="wait">
+                        {!isResultView || !userInputData ? (
+                            <motion.div
+                                key="input-form"
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <InputForm
+                                    onSubmit={onSubmit}
+                                    maxInputs={MAX_INPUTS}
+                                />
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="result-display"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <ResultDisplay
+                                    apiResult={displayResults}
+                                    isError={isError}
+                                    onReset={handleReset}
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* ローディング状態 */}
+                    {isLoading && (
+                        <motion.div
+                            className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            <div className="text-center">
+                                <motion.div
+                                    className="w-16 h-16 border-4 border-primary-200 border-t-primary-500 rounded-full mx-auto mb-4"
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                />
+                                <p className="text-lg font-semibold text-primary-700">
+                                    セキュアに処理中...
+                                </p>
+                            </div>
+                        </motion.div>
+                    )}
+                </motion.div>
+            </motion.div>
+        </div>
     );
 }
 
