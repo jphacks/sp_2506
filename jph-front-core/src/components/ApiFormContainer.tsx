@@ -33,9 +33,9 @@ const fetchUniqueId = async (title: string): Promise<string> => {
     const normalizedTitle = title.trim().toLowerCase();
 
     const respJson = await (await fetch(`https://api.jikan.moe/v4/anime?q=${normalizedTitle}&limit=1`)).json();
-    const id = respJson.data[0].mal_id;
-    console.log(respJson.data[0].titles.filter((t: TitleStruct)=>t.type=="Japanese" || t.type=="Default").pop())
-    
+    console.log(respJson.data[0].mal_id);
+    const id:string = respJson.data[0].titles.filter((t: TitleStruct) => t.type == "Japanese" || t.type == "Default").pop().title;
+
     if (normalizedTitle.includes('エラー')) {
         // ID取得エラーをシミュレート
         throw new Error(`ID取得に失敗: ${title}`);
@@ -119,7 +119,7 @@ function ApiFormContainer() {
 
 
             // 🔑 最終表示用のデータ構造を生成
-            const combinedDisplayResults: DisplayResultItem[] = allInputs.map((text, index) => ({
+            const combinedDisplayResults: DisplayResultItem[] = uniqueIds.map((text, index) => ({
                 originalText: text,
                 apiOutput: combinedResult[index],
             }));

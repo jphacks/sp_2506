@@ -3,6 +3,7 @@ import { Box, Typography, Button } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { type DisplayResultItem } from './ApiFormContainer'; // 🔑 新しい型をインポート
 import { useState } from 'react';
+import { useLongPress } from '../hooks/userLongPress';
 
 type ResultDisplayProps = {
     // 🔑 型を変更: string[] から DisplayResultItem[] へ
@@ -11,19 +12,25 @@ type ResultDisplayProps = {
     onReset: () => void;
 };
 
-function ResultDisplay({ apiResult, isError, onReset}: ResultDisplayProps) {
-    const [longPressPressindex, setLongPressIndex] = useState<number | null>(null);
-    
+function ResultDisplay({ apiResult, isError, onReset }: ResultDisplayProps) {
+
     if (!apiResult) {
         // 結果がない場合は何も表示しない（通常、ApiFormContainerで制御される）
         return null;
     }
 
 
-    // クリックハンドラー（長押しの代わりにクリックで切り替え）
-    const handleClick = (index: number) => {
-        setLongPressIndex(longPressPressindex === index ? null : index);
+
+    const [longPressPressindex, setLongPressIndex] = useState<number | null>(null);
+    const handleLongPress = (index: number) => {
+        // 元の入力テキストをメッセージに含める
+        // const message = `💡 元の入力 ${index + 1}: 「${item.originalText}」`;
+        setLongPressIndex(index);
+        console.log(index);
     };
+    const handleRelease = () => {
+        setLongPressIndex(-1);
+    }
 
     return (
         <Box>
@@ -48,12 +55,19 @@ function ResultDisplay({ apiResult, isError, onReset}: ResultDisplayProps) {
                 <Box component="ul" sx={{ listStyle: 'none', paddingLeft: 0 }}>
                     {/* apiResultの型が DisplayResultItem[] に変わる */}
                     {apiResult.map((item, index) => {
+                        // 🔑 長押しイベントハンドラを生成
+                        const longPressProps = useLongPress(
+                            // 実行するコールバック関数に item (元の入力とAPI結果のペア) を渡す
+                            () => handleLongPress(index),
+                            () => handleRelease(),
+                            2000 // 3秒
+                        );
                         return (
                             <Typography
                                 component="li"
                                 key={index}
                                 variant="body1"
-                                onClick={() => handleClick(index)}
+                                {...longPressProps}
                                 sx={{
                                     cursor: 'pointer',
                                     padding: 1,
