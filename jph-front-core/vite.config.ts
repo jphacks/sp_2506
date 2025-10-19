@@ -8,6 +8,12 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  define: {
+    // 環境変数のデフォルト値を設定
+    'import.meta.env.VITE_API_BASE_URL': JSON.stringify(
+      process.env.VITE_API_BASE_URL || 'http://localhost:3000'
+    ),
+  },
   build: {
     // ビルド最適化設定
     target: 'esnext',

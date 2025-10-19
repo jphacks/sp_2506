@@ -151,7 +151,12 @@ function ApiFormContainer() {
         const batch = uniqueIds.map(text => new TextEncoder().encode(text));
         const [finData, evalReq] = await client.blind(batch);
 
-        const apiUrl = 'http://localhost:3000/upload-binary';
+        // 環境に応じてAPI URLを設定
+        const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || (isDevelopment 
+            ? 'http://localhost:3000'
+            : 'https://secretsync.t0waxx.com');
+        const apiUrl = `${apiBaseUrl}/upload-binary`;
 
         setIsError(false);
         // setApiResult(null);

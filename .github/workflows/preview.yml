@@ -32,7 +32,7 @@ jobs:
         
     - name: 🏗️ Build projects
       run: |
-        cd jph-front-core && bun run build
+        cd jph-front-core && VITE_API_BASE_URL=https://secretsync.t0waxx.com bun run build
         cd ../jph-back-core && bun run build
         
     - name: 🔍 Deploy Preview
