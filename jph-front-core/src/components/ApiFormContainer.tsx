@@ -7,7 +7,7 @@ import { gsap } from 'gsap';
 import { RefreshCw, Database } from 'lucide-react';
 import SecretSyncIcon from './SecretSyncIcon';
 import { useMobileDetection } from '../hooks/useMobileDetection';
-import { useGSAPAnimations } from '../hooks/useGSAPAnimations';
+// import { useGSAPAnimations } from '../hooks/useGSAPAnimations';
 import { useFireworksAnimation } from '../hooks/useFireworksAnimation';
 
 // 外部コンポーネントをインポート
@@ -66,22 +66,22 @@ function ApiFormContainer() {
     // アニメーション用のref
     const containerRef = useRef<HTMLDivElement>(null);
     const isMobile = useMobileDetection();
-    const gsapAnimations = useGSAPAnimations();
+    // const gsapAnimations = useGSAPAnimations();
     const fireworksAnimation = useFireworksAnimation();
     const sparkleRefs = useRef<(HTMLDivElement | null)[]>([]);
 
     // モバイル向けアニメーション設定
-    const getAnimationConfig = (baseConfig: any) => {
-        if (isMobile) {
-            return {
-                ...baseConfig,
-                duration: baseConfig.duration ? baseConfig.duration * 0.6 : 600,
-                delay: baseConfig.delay ? baseConfig.delay * 0.5 : 0,
-                easing: 'easeOutQuad'
-            };
-        }
-        return baseConfig;
-    };
+    // const getAnimationConfig = (baseConfig: any) => {
+    //     if (isMobile) {
+    //         return {
+    //             ...baseConfig,
+    //             duration: baseConfig.duration ? baseConfig.duration * 0.6 : 600,
+    //             delay: baseConfig.delay ? baseConfig.delay * 0.5 : 0,
+    //             easing: 'easeOutQuad'
+    //         };
+    //     }
+    //     return baseConfig;
+    // };
 
 
     // フォームリセットと入力画面に戻る処理
@@ -241,10 +241,6 @@ function ApiFormContainer() {
                     >
                         <div className="relative">
                             <motion.div
-                                animate={{ 
-                                    rotate: [0, 5, -5, 0],
-                                    scale: [1, 1.05, 1]
-                                }}
                                 transition={{ 
                                     duration: 4, 
                                     repeat: Infinity,
@@ -254,10 +250,6 @@ function ApiFormContainer() {
                                 <SecretSyncIcon size={64} className="text-primary-500" />
                             </motion.div>
                             <motion.div
-                                animate={{ 
-                                    rotate: [0, 360],
-                                    scale: [1, 1.2, 1]
-                                }}
                                 transition={{ 
                                     duration: 3, 
                                     repeat: Infinity,
@@ -265,15 +257,10 @@ function ApiFormContainer() {
                                 }}
                             >
                                 <RefreshCw 
-                                    ref={el => sparkleRefs.current[0] = el}
                                     className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 text-accent-400"
                                 />
                             </motion.div>
                             <motion.div
-                                animate={{ 
-                                    scale: [1, 1.3, 1],
-                                    rotate: [0, 180, 360]
-                                }}
                                 transition={{ 
                                     duration: 2, 
                                     repeat: Infinity,
@@ -281,7 +268,6 @@ function ApiFormContainer() {
                                 }}
                             >
                                 <Database 
-                                    ref={el => sparkleRefs.current[1] = el}
                                     className="absolute -bottom-1 -left-1 sm:-bottom-2 sm:-left-2 w-3 h-3 sm:w-4 sm:h-4 text-accent-300"
                                 />
                             </motion.div>

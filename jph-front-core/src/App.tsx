@@ -49,7 +49,7 @@ function App() {
       }
     });
   }, [isMobile]);
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-secondary-900 to-accent-900 relative overflow-hidden">
       {/* 動的背景装飾 */}
@@ -91,12 +91,11 @@ function App() {
             ease: "linear"
           }}
         />
-        
+
         {/* パーティクル効果 */}
         {[...Array(isMobile ? 2 : 4)].map((_, i) => (
           <div
             key={i}
-            ref={el => particleRefs.current[i] = el}
             className="absolute w-2 h-2 bg-white/20 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
@@ -198,7 +197,7 @@ function App() {
                 </motion.div>
                 <span className="text-sm font-medium">GitHub</span>
               </motion.a>
-              
+
               <motion.a
                 href="https://jphacks.com"
                 target="_blank"
