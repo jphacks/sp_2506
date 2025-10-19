@@ -8,10 +8,11 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                        Client Layer                         │
 ├─────────────────────────────────────────────────────────────┤
-│  React Frontend (jph-front-core)                           │
-│  • UI Components                                           │
-│  • State Management                                         │
-│  • API Client                                              │
+│  React 19.1.1 Frontend (jph-front-core)                     │
+│  • UI Components (Framer Motion 11.11.17)                │
+│  • State Management (React Hook Form 7.65.0)              │
+│  • API Client (OPRF Protocol)                             │
+│  • Styling (Tailwind CSS 4.1.0)                           │
 └─────────────────────────────────────────────────────────────┘
                                 │
                                 │ HTTP/HTTPS
@@ -19,10 +20,11 @@
 ┌─────────────────────────────────────────────────────────────┐
 │                      Application Layer                      │
 ├─────────────────────────────────────────────────────────────┤
-│  Express.js Backend (jph-back-core)                        │
-│  • REST API Endpoints                                       │
-│  • Request/Response Handling                               │
+│  Express.js 5.1.0 Backend (jph-back-core)                  │
+│  • REST API Endpoints (Swagger OpenAPI 3.0)               │
+│  • Request/Response Handling (TypeScript 5.9.3)           │
 │  • Authentication & Authorization                          │
+│  • OPRF Service (@cloudflare/voprf-ts 1.0.0)              │
 └─────────────────────────────────────────────────────────────┘
                                 │
                                 │

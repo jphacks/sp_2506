@@ -2,10 +2,12 @@
 
 ## 🌐 基本情報
 
-- **ベースURL**: `http://localhost:3000`
+- **ベースURL**: `http://localhost:3000` (開発) / `https://secretsync.t0waxx.com` (本番)
 - **プロトコル**: HTTP/HTTPS
-- **データ形式**: JSON, Binary
+- **データ形式**: JSON, Binary (OPRF処理)
 - **認証**: なし（開発版）
+- **API仕様**: Swagger OpenAPI 3.0
+- **フレームワーク**: Express.js 5.1.0 + TypeScript 5.9.3
 
 ## 📚 API ドキュメント
 

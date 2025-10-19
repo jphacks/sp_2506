@@ -3,9 +3,10 @@
 ## 🛠️ 開発環境の構築
 
 ### 前提条件
-- Bun 1.0以上
-- Git 2.0以上
-- エディタ（VS Code推奨）
+- **Bun 1.0以上** (高速JavaScript/TypeScriptランタイム)
+- **Git 2.0以上** (バージョン管理)
+- **Node.js 18以上** (Vercel Functions対応)
+- **エディタ**: VS Code推奨 (TypeScript + Bun拡張機能)
 
 ### 自動セットアップ（推奨）
 ```bash
@@ -26,7 +27,10 @@ make install-tools
     "ms-vscode.vscode-typescript-next",
     "esbenp.prettier-vscode",
     "ms-vscode.vscode-json",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-eslint",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense"
   ]
 }
 ```

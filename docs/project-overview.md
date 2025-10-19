@@ -22,20 +22,23 @@
 ### 主要コンポーネント
 
 #### フロントエンド (`jph-front-core`)
-- **技術スタック**: React + TypeScript + Vite
+- **技術スタック**: React 19.1.1 + TypeScript 5.9.3 + Vite 7.1.7
+- **UI/UX**: Framer Motion 11.11.17 + Tailwind CSS 4.1.0 + Lucide React 0.460.0
 - **主要機能**:
-  - ユーザーインターフェース
-  - API通信クライアント
-  - データ入力・表示フォーム
-  - リアルタイム結果表示
+  - ユーザーインターフェース（レスポンシブデザイン）
+  - API通信クライアント（OPRFプロトコル対応）
+  - データ入力・表示フォーム（React Hook Form 7.65.0）
+  - リアルタイム結果表示（アニメーション付き）
 
 #### バックエンド (`jph-back-core`)
-- **技術スタック**: Bun + TypeScript + Express.js
+- **技術スタック**: Bun 1.0+ + TypeScript 5.9.3 + Express.js 5.1.0
+- **暗号化**: @cloudflare/voprf-ts 1.0.0 + OpenSSL (P-384楕円曲線暗号)
+- **API仕様**: Swagger OpenAPI 3.0 + swagger-jsdoc 6.2.8
 - **主要機能**:
-  - OPRFプロトコル実装
-  - RESTful API提供
-  - セキュアなデータ処理
-  - Swagger API ドキュメント
+  - OPRFプロトコル実装（Cloudflare OPRF）
+  - RESTful API提供（Express.js + TypeScript）
+  - セキュアなデータ処理（JSON + Binary）
+  - Swagger API ドキュメント（swagger-ui-express 5.0.1）
 
 ## 🔐 セキュリティ機能
 
