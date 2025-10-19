@@ -103,7 +103,7 @@ function ApiFormContainer() {
             setDisplayResults(combinedDisplayResults);
             // setApiResult(combinedResult);
 
-        } catch (error) {
+        } catch {
             // const errorMessage = error instanceof Error ? error.message : '不明なエラーが発生しました。';
             // setApiResult([`エラー: ${errorMessage}`]);
             setIsError(true);
