@@ -3,15 +3,39 @@
 ## 📋 前提条件
 
 ### 必要なソフトウェア
-- **Bun**: 1.0以上
-- **Node.js**: 18.0以上（Bunの代替として）
-- **Git**: 2.0以上
+- **Bun**: 1.0以上 (高速JavaScript/TypeScriptランタイム)
+- **Node.js**: 18.0以上 (Vercel Functions対応)
+- **Git**: 2.0以上 (バージョン管理)
 - **OS**: macOS, Linux, Windows
+- **ブラウザ**: Chrome, Firefox, Safari, Edge (最新版)
 
 ### 推奨環境
 - **メモリ**: 4GB以上
 - **ストレージ**: 2GB以上の空き容量
 - **ネットワーク**: インターネット接続
+
+## 🛠️ 技術スタック
+
+### フロントエンド
+- **フレームワーク**: React 19.1.1
+- **言語**: TypeScript 5.9.3
+- **ビルドツール**: Vite 7.1.7
+- **UI/UX**: Framer Motion 11.11.17 + Tailwind CSS 4.1.0
+- **アイコン**: Lucide React 0.460.0
+- **フォーム**: React Hook Form 7.65.0
+
+### バックエンド
+- **ランタイム**: Bun 1.0+
+- **フレームワーク**: Express.js 5.1.0
+- **言語**: TypeScript 5.9.3
+- **暗号化**: @cloudflare/voprf-ts 1.0.0
+- **API仕様**: Swagger OpenAPI 3.0
+
+### デプロイ・インフラ
+- **フロントエンド**: Vercel
+- **バックエンド**: Vercel Functions
+- **CI/CD**: GitHub Actions
+- **パッケージマネージャー**: Bun
 
 ## 🚀 クイックスタート
 
